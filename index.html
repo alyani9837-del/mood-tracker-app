@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Healthy Place Mood | Premium Emotion Monitor</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+    <!-- 1. Landing Page Section -->
+    <section id="landing-page" class="page active">
+        <div class="landing-hero">
+            <div class="hero-content">
+                <div class="logo-branded" style="display: flex; justify-content: center; margin-bottom: 2rem;">
+                    <!-- Unified Heart Pulse Logo -->
+                    <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg"
+                        style="filter: drop-shadow(0 12px 24px rgba(59, 130, 246, 0.15));">
+                        <circle cx="60" cy="60" r="55" fill="#eff6ff" />
+                        <!-- Precision Centered Heart (Shifted Down) -->
+                        <path
+                            d="M60 95C60 95 25 79 25 59C25 44 38 34 48 34C54 34 58 39 60 44C62 39 66 34 72 34C82 34 95 44 95 59C95 79 60 95 60 95Z"
+                            fill="#3b82f6" fill-opacity="0.2" />
+                        <!-- Precision Centered Pulse (Shifted Down) -->
+                        <path d="M20 65H35L45 45L55 85L65 55L75 75L85 65H100" stroke="#3b82f6" stroke-width="5"
+                            stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </div>
+                <h1>Your Safe Space for <br> Mental Clarity</h1>
+                <p>Monitor your emotions with Computer Vision and AI. <br> Private. Objective. Empowering.</p>
+                <div class="hero-actions">
+                    <button class="btn-primary" style="padding: 1.25rem 2.5rem; font-size: 1.1rem;"
+                        onclick="app.navigateTo('auth')">Get Started <i data-lucide="chevron-right"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="articles-section">
+            <h2 style="color: var(--primary);">Mental Health Insights</h2>
+            <div class="article-grid">
+                <article class="article-card">
+                    <img src="https://images.unsplash.com/photo-1517842645767-c639042777db?auto=format&fit=crop&q=80&w=800"
+                        class="article-thumb" alt="Mood Tracker Benefit">
+                    <div class="article-content">
+                        <h3>5 Manfaat Memiliki Mood Tracker</h3>
+                        <p>Membantu mengenali pemicu emosi, mendukung penyembuhan mental, dan meningkatkan kesadaran
+                            diri.</p>
+                        <a href="https://www.idntimes.com/life/inspiration/5-manfaat-memiliki-mood-tracker-tingkatkan-kesejahteraan-mental-01-q17w8-rf24c0"
+                            class="read-more" target="_blank">Baca Selengkapnya <i data-lucide="arrow-right"></i></a>
+                    </div>
+                </article>
+                <article class="article-card">
+                    <img src="https://images.unsplash.com/photo-1516062423079-7ca13cdc7f5a?auto=format&fit=crop&q=80&w=800"
+                        class="article-thumb" alt="Mood vs Emotion">
+                    <div class="article-content">
+                        <h3>Bedanya Mood dan Emosi</h3>
+                        <p>Pelajari fakta menarik tentang suasana hati, bagaimana ia menular, dan perbedaannya dengan
+                            emosi.</p>
+                        <a href="https://www.halodoc.com/artikel/mood-atau-suasana-hati-berbagai-fakta-dan-bedanya-dengan-emosi"
+                            class="read-more" target="_blank">Baca Selengkapnya <i data-lucide="arrow-right"></i></a>
+                    </div>
+                </article>
+                <article class="article-card">
+                    <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&q=80&w=800"
+                        class="article-thumb" alt="Mood Booster">
+                    <div class="article-content">
+                        <h3>Hal Sederhana Mood Booster</h3>
+                        <p>Temukan kebahagiaan dalam hal-hal kecil di sekitar kita, dari musik hingga segelas kopi
+                            favorit.</p>
+                        <a href="https://keslan.kemkes.go.id/view_artikel/1193/hal-hal-sederhana-yang-kita-sukai-bisa-jadi-mood-booster"
+                            class="read-more" target="_blank">Baca Selengkapnya <i data-lucide="arrow-right"></i></a>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. Auth Section (Modern Split Redesign) -->
+    <section id="auth-page" class="page">
+        <div class="auth-page-screen">
+            <!-- Left Side: Hero Illustration (Inspired by Cosmin Capitanu) -->
+            <aside class="auth-hero-aside">
+                <img src="img/blueprint.png" class="auth-hero-illustration" alt="3D Blueprint Illustration">
+                <div class="auth-hero-text">
+                    <h2>Embrace Your Mental Clarity</h2>
+                    <p>Join thousands of users tracking their emotional health journey with privacy and AI-driven
+                        precision.</p>
+                </div>
+            </aside>
+
+            <!-- Right Side: Form Container -->
+            <aside class="auth-form-aside">
+                <div class="auth-form-inner">
+                    <!-- Dynamic form: Login -->
+                    <div id="login-form">
+                        <span class="auth-title">Selamat datang kembali</span>
+                        <span class="auth-subtitle">Baru di Mood Tracker? <a href="#"
+                                onclick="app.toggleAuth('register')">Daftar Gratis</a></span>
+
+                        <div class="form-group">
+                            <label>Alamat Email</label>
+                            <input type="email" placeholder="Contoh: email@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label>Kata Sandi</label>
+                            <input type="password" placeholder="Masukkan kata sandi kamu">
+                            <a href="#" class="forgot-link" onclick="app.toggleAuth('forgot')">Lupa kata sandi?</a>
+                        </div>
+
+                        <button class="btn-primary auth-submit" onclick="app.login()">Masuk</button>
+
+
+                        <div class="auth-actions-row">
+                            <label class="remember-me">
+                                <span>Ingat perangkat ini</span>
+                                <input type="checkbox">
+                            </label>
+                            <button class="btn-back-outline" onclick="app.navigateTo('landing')">
+                                <i data-lucide="arrow-left"></i> Kembali
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Dynamic form: Register -->
+                    <div id="register-form" class="hidden">
+                        <span class="auth-title">Buat Akun Baru</span>
+                        <span class="auth-subtitle">Sudah punya akun? <a href="#"
+                                onclick="app.toggleAuth('login')">Login</a></span>
+
+                        <div class="form-group">
+                            <label>Nama Lengkap</label>
+                            <input type="text" placeholder="Masukkan nama lengkap">
+                        </div>
+                        <div class="form-group">
+                            <label>Alamat Email</label>
+                            <input type="email" placeholder="nama@email.com">
+                        </div>
+                        <div class="form-group">
+                            <label>Buat Kata Sandi</label>
+                            <input type="password" placeholder="Minimal 8 karakter">
+                        </div>
+
+                        <button class="btn-primary auth-submit" onclick="app.login()">Daftar Sekarang</button>
+
+                        <p class="auth-terms">
+                            Dengan melanjutkan, kamu menerima <a href="#">Syarat Penggunaan</a> dan <a
+                                href="#">Kebijakan Privasi</a> kami.
+                        </p>
+                    </div>
+
+                    <!-- Dynamic form: Forgot Password -->
+                    <div id="forgot-password-form" class="hidden">
+                        <span class="auth-title">Lupa Kata Sandi?</span>
+                        <span class="auth-subtitle">Masukkan email kamu untuk mereset kata sandi</span>
+
+                        <div class="form-group">
+                            <label>Alamat Email</label>
+                            <input type="email" placeholder="nama@email.com">
+                        </div>
+
+                        <button class="btn-primary auth-submit"
+                            onclick="alert('Instruksi pemulihan telah dikirim ke email kamu!')">Kirim Instruksi</button>
+
+                        <p class="auth-subtitle" style="margin-top: 1.5rem;">
+                            Ingat kata sandi? <a href="#" onclick="app.toggleAuth('login')">Kembali ke Login</a>
+                        </p>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </section>
+
+
+    <!-- 3. Main App Wrapper -->
+    <div id="app-wrapper" class="hidden">
+        <div class="app-container">
+            <nav class="sidebar">
+                <div class="logo">
+                    <!-- Heart Pulse Logo for Sidebar -->
+                    <svg width="60" height="60" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="60" cy="60" r="50" fill="#eff6ff" opacity="0.5" />
+                        <path
+                            d="M60 95C60 95 25 79 25 59C25 44 38 34 48 34C54 34 58 39 60 44C62 39 66 34 72 34C82 34 95 44 95 59C95 79 60 95 60 95Z"
+                            fill="#3b82f6" fill-opacity="0.15" />
+                        <path d="M25 65H41L48 50L56 80L64 60L72 70L80 65H95" stroke="#3b82f6" stroke-width="6"
+                            stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                    <span style="font-weight: 800; font-size: 1.1rem; color: var(--primary); letter-spacing: 0.05em;">HP
+                        MOOD</span>
+                </div>
+                <ul class="nav-links">
+                    <li class="active" data-page="dashboard"><i data-lucide="layout-dashboard"></i>
+                        <span>Dashboard</span>
+                    </li>
+                    <li data-page="scanner"><i data-lucide="camera"></i> <span>Mood Scanner</span></li>
+                    <li data-page="trends"><i data-lucide="trending-up"></i> <span>Emotion Trends</span></li>
+                    <li data-page="breath"><i data-lucide="wind"></i> <span>Breath Art</span></li>
+                </ul>
+                <div class="nav-footer">
+                    <div class="logout-item" onclick="app.logout()">
+                        <i data-lucide="log-out"></i> <span>Log Out</span>
+                    </div>
+                    <div class="privacy-badge">
+                        <i data-lucide="lock"></i> <span>Local & Private</span>
+                    </div>
+                </div>
+            </nav>
+
+            <main class="main-content">
+                <header>
+                    <div class="welcome-text">
+                        <h1 id="greeting">Hi, Friend</h1>
+                        <p>How are you feeling right now?</p>
+                    </div>
+                    <div class="current-status" onclick="app.logout()" style="cursor: pointer;">
+                        <span class="status-dot"></span>
+                        <span id="current-score-pill">Sign Out</span>
+                    </div>
+                </header>
+
+                <!-- Pages inside main -->
+                <section id="dashboard-page" class="page">
+                    <div class="stats-grid">
+                        <div class="card glass">
+                            <h3>Latest Emotion</h3>
+                            <div class="big-score" id="today-main-score">-</div>
+                            <p id="today-status">Start a scan to see your mood</p>
+                        </div>
+                        <div class="card glass">
+                            <h3>Moving Average (7d)</h3>
+                            <div class="small-chart">
+                                <svg viewBox="0 0 200 60" class="sparkline">
+                                    <path d="M0 30 Q 50 10, 100 40 T 200 20" fill="none" stroke="var(--primary)"
+                                        stroke-width="2" />
+                                </svg>
+                            </div>
+                            <p id="trend-summary">Not enough data</p>
+                        </div>
+                    </div>
+                    <div class="action-card glass-premium">
+                        <div class="content">
+                            <h2>Daily Check-in</h2>
+                            <p>Sync your facial expression with your subjective mood.</p>
+                            <button class="btn-primary" onclick="app.navigateTo('scanner')">Start Scanner <i
+                                    data-lucide="camera"></i></button>
+                        </div>
+                        <div class="illustration">
+                            <i data-lucide="brain-circuit" size="80" color="var(--primary)"></i>
+                        </div>
+                    </div>
+
+                    <!-- Prominent Motivation Card (Full Width) -->
+                    <div class="motivation-card">
+                        <div id="wisdom-icon" style="margin-bottom: 1rem;"><i data-lucide="sparkles" size="48"
+                                color="var(--primary)"></i></div>
+                        <h3 style="font-size: 1.3rem; color: var(--primary); margin-bottom: 0.5rem; font-weight: 800;">
+                            Daily Motivation</h3>
+                        <p id="daily-wisdom-text"
+                            style="font-style: italic; color: var(--text-main); font-size: 1.1rem; line-height: 1.6; max-width: 800px; margin: 0 auto;">
+                            "Healing takes time, and asking for help is a superpower."</p>
+                    </div>
+
+                    <!-- Charts Grid below -->
+                    <div class="charts-grid">
+                        <div class="card glass chart-container">
+                            <h3>Weekly Flow (Line)</h3>
+                            <canvas id="line-chart"></canvas>
+                        </div>
+                        <div class="card glass chart-container">
+                            <h3>Mood Distribution (Pie)</h3>
+                            <canvas id="pie-chart"></canvas>
+                        </div>
+                        <div class="card glass chart-container">
+                            <h3>Daily Intensity (Bar)</h3>
+                            <canvas id="bar-chart"></canvas>
+                        </div>
+                        <div class="card glass chart-container">
+                            <h3>Emotional Wave (Area)</h3>
+                            <canvas id="wave-chart"></canvas>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="scanner-page" class="page">
+                    <div class="scanner-container">
+                        <div class="video-wrapper glass">
+                            <video id="webcam" autoplay muted playsinline></video>
+                            <div class="scan-overlay">
+                                <div class="scan-frame"></div>
+                            </div>
+                            <div id="scan-feedback" class="scanner-status">Initializing...</div>
+                        </div>
+                        <div class="scanner-controls glass">
+                            <h2>Face Analysis</h2>
+                            <p>Let AI detect your objective expression.</p>
+                            <button id="capture-btn" class="btn-action">Analyze Expression</button>
+                            <div id="emoji-validation" class="hidden">
+                                <hr style="margin: 1.5rem 0; opacity: 0.1;">
+                                <h2>Subjective Input</h2>
+                                <p>Refine the analysis with your feeling.</p>
+                                <div class="emoji-grid">
+                                    <button class="emoji-btn" data-value="100">😭 <span>Stressed</span></button>
+                                    <button class="emoji-btn" data-value="80">😔 <span>Sad</span></button>
+                                    <button class="emoji-btn" data-value="50">😐 <span>Neutral</span></button>
+                                    <button class="emoji-btn" data-value="20">😊 <span>Happy</span></button>
+                                    <button class="emoji-btn" data-value="0">🤩 <span>Great</span></button>
+                                </div>
+                            </div>
+                            <div id="sync-result" class="hidden" style="margin-top: 2rem;">
+                                <div class="card glass" style="padding: 1.5rem; text-align: center;">
+                                    <span style="color: var(--text-muted); font-size: 0.9rem;">Final Calculated
+                                        Score</span>
+                                    <div id="final-calculated-score"
+                                        style="font-size: 2.5rem; font-weight: 800; color: var(--primary);">0</div>
+                                </div>
+                                <button class="btn-primary" style="width: 100%; margin-top: 1rem;"
+                                    onclick="app.saveEntry()">Save Record</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="trends-page" class="page">
+                    <div class="card glass" style="text-align: center; padding: 4rem;">
+                        <i data-lucide="line-chart" size="64" color="var(--primary)" style="margin-bottom: 1.5rem;"></i>
+                        <h2>Deeper Insights</h2>
+                        <p>We are consolidating your analytic views on the main dashboard for a better experience.</p>
+                        <button class="btn-primary" style="margin-top: 2rem;" onclick="app.navigateTo('dashboard')">Back
+                            to Dashboard</button>
+                    </div>
+                </section>
+
+                <section id="breath-page" class="page">
+                    <div class="breath-container">
+                        <div class="breath-visual">
+                            <div class="inner-circle"></div>
+                            <div class="breath-text" id="breath-instruction">Breathe.</div>
+                        </div>
+                        <div class="breath-controls">
+                            <button id="start-breath" class="btn-primary">Start Meditation</button>
+                            <p>Focus on the visual rhythm to calm your nervous system.</p>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="breath.js"></script>
+    <script src="app.js"></script>
+    <script>lucide.createIcons();</script>
+</body>
+
+</html>
