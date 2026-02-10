@@ -126,9 +126,12 @@ class MoodApp {
 
         // Cek jika ganti akun (email berbeda)
         if (this.profile.email !== emailEl.value) {
-            // Reset data ke default untuk user baru
+            // Bersihkan data lama total
+            localStorage.clear();
+
+            // Set data default untuk user baru
             this.profile = {
-                name: emailEl.value.split('@')[0], // Default name from email
+                name: emailEl.value.split('@')[0],
                 email: emailEl.value,
                 photo: null,
                 lang: 'id'
@@ -137,19 +140,14 @@ class MoodApp {
             this.hopes = [];
             this.diary = [];
 
+            // Simpan data kosong untuk user baru sebelum reload
             localStorage.setItem('userProfile', JSON.stringify(this.profile));
             localStorage.setItem('moodEntries', JSON.stringify(this.entries));
             localStorage.setItem('userHopes', JSON.stringify(this.hopes));
             localStorage.setItem('userDiary', JSON.stringify(this.diary));
         }
 
-        this.isLoggedIn = true;
         localStorage.setItem('isLoggedIn', 'true');
-
-        // Simpan profile baru ke storage
-        localStorage.setItem('userProfile', JSON.stringify(this.profile));
-
-        // Redirect dan Reload untuk memastikan state bersih
         window.location.reload();
     }
 
