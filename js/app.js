@@ -13,6 +13,8 @@ class MoodApp {
             lang: 'id'
         };
         this.diary = JSON.parse(localStorage.getItem('userDiary')) || [];
+        // Database user sederhana untuk demo
+        this.users = JSON.parse(localStorage.getItem('appUsers')) || [];
 
         this.init();
     }
@@ -124,15 +126,31 @@ class MoodApp {
 
         if (!isValid) return;
 
-        // Cek jika ganti akun (email berbeda)
-        if (this.profile.email !== emailEl.value) {
-            // Bersihkan data lama total
-            localStorage.clear();
+        // Cari user di "database"
+        const user = this.users.find(u => u.email === emailEl.value);
 
-            // Set data default untuk user baru
+        if (!user) {
+            Toast.error('Login Failed', 'Email belum terdaftar!');
+            emailEl.classList.add('input-error');
+            return;
+        }
+
+        if (user.password !== passEl.value) {
+            Toast.error('Login Failed', 'Kata sandi salah!');
+            passEl.classList.add('input-error');
+            return;
+        }
+
+        // Kalau email beda sama profil yang aktif sekarang, bersihkan data lama
+        if (this.profile.email !== emailEl.value) {
+            // Kita cuma hapus data sesi, bukan database user
+            const currentUsers = JSON.parse(localStorage.getItem('appUsers')) || [];
+            localStorage.clear();
+            localStorage.setItem('appUsers', JSON.stringify(currentUsers));
+
             this.profile = {
-                name: emailEl.value.split('@')[0],
-                email: emailEl.value,
+                name: user.name,
+                email: user.email,
                 photo: null,
                 lang: 'id'
             };
@@ -140,7 +158,6 @@ class MoodApp {
             this.hopes = [];
             this.diary = [];
 
-            // Simpan data kosong untuk user baru sebelum reload
             localStorage.setItem('userProfile', JSON.stringify(this.profile));
             localStorage.setItem('moodEntries', JSON.stringify(this.entries));
             localStorage.setItem('userHopes', JSON.stringify(this.hopes));
@@ -173,7 +190,23 @@ class MoodApp {
 
         if (!isValid) return;
 
-        // Reset data untuk registrasi baru
+        // Cek apakah email sudah terdaftar
+        if (this.users.some(u => u.email === emailEl.value)) {
+            Toast.error('Register Failed', 'Email sudah digunakan!');
+            emailEl.classList.add('input-error');
+            return;
+        }
+
+        // Simpan ke database user
+        const newUser = {
+            name: nameEl.value,
+            email: emailEl.value,
+            password: passEl.value
+        };
+        this.users.push(newUser);
+        localStorage.setItem('appUsers', JSON.stringify(this.users));
+
+        // Set data profil aktif
         this.profile = {
             name: nameEl.value,
             email: emailEl.value,
@@ -189,13 +222,7 @@ class MoodApp {
         localStorage.setItem('userHopes', JSON.stringify(this.hopes));
         localStorage.setItem('userDiary', JSON.stringify(this.diary));
 
-        this.isLoggedIn = true;
         localStorage.setItem('isLoggedIn', 'true');
-
-        // Simpan data baru
-        localStorage.setItem('userProfile', JSON.stringify(this.profile));
-
-        // Reload total
         window.location.reload();
     }
 
