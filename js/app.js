@@ -119,22 +119,33 @@ class MoodApp {
                 el.classList.add('input-error');
                 isValid = false;
             }
-            // Clear error on type
             el.oninput = () => el.classList.remove('input-error');
         });
 
         if (!isValid) return;
 
-        this.isLoggedIn = true;
-        localStorage.setItem('isLoggedIn', 'true');
-
-        // Sync email from login if different
+        // Cek jika ganti akun (email berbeda)
         if (this.profile.email !== emailEl.value) {
-            this.profile.email = emailEl.value;
+            // Reset data ke default untuk user baru
+            this.profile = {
+                name: emailEl.value.split('@')[0], // Default name from email
+                email: emailEl.value,
+                photo: null,
+                lang: 'id'
+            };
+            this.entries = [];
+            this.hopes = [];
+            this.diary = [];
+
             localStorage.setItem('userProfile', JSON.stringify(this.profile));
-            this.updateProfileUI();
+            localStorage.setItem('moodEntries', JSON.stringify(this.entries));
+            localStorage.setItem('userHopes', JSON.stringify(this.hopes));
+            localStorage.setItem('userDiary', JSON.stringify(this.diary));
         }
 
+        this.isLoggedIn = true;
+        localStorage.setItem('isLoggedIn', 'true');
+        this.updateProfileUI();
         this.showMainApp();
     }
 
@@ -160,15 +171,25 @@ class MoodApp {
 
         if (!isValid) return;
 
+        // Reset data untuk registrasi baru
+        this.profile = {
+            name: nameEl.value,
+            email: emailEl.value,
+            photo: null,
+            lang: 'id'
+        };
+        this.entries = [];
+        this.hopes = [];
+        this.diary = [];
+
+        localStorage.setItem('userProfile', JSON.stringify(this.profile));
+        localStorage.setItem('moodEntries', JSON.stringify(this.entries));
+        localStorage.setItem('userHopes', JSON.stringify(this.hopes));
+        localStorage.setItem('userDiary', JSON.stringify(this.diary));
+
         this.isLoggedIn = true;
         localStorage.setItem('isLoggedIn', 'true');
-
-        // Automatically save profile info from registration
-        this.profile.name = nameEl.value;
-        this.profile.email = emailEl.value;
-        localStorage.setItem('userProfile', JSON.stringify(this.profile));
         this.updateProfileUI();
-
         this.showMainApp();
     }
 
@@ -408,10 +429,23 @@ class MoodApp {
     }
 
     logout() {
-        this.isLoggedIn = false;
-        localStorage.removeItem('isLoggedIn');
-        document.getElementById('app-wrapper').classList.add('hidden');
-        this.navigateTo('landing');
+        if (confirm('Apakah Anda yakin ingin keluar?')) {
+            this.isLoggedIn = false;
+            // Bersihkan status login
+            localStorage.removeItem('isLoggedIn');
+
+            // Opsional: Jika ingin benar-benar bersih tiap ganti akun, 
+            // kita bisa hapus data profile & entries juga.
+            // localStorage.removeItem('userProfile');
+            // localStorage.removeItem('moodEntries');
+
+            // Cara paling aman: Redirect ke landing dan reload
+            document.getElementById('app-wrapper').classList.add('hidden');
+            this.navigateTo('landing');
+
+            // Reload page supaya state constructor ke-reset
+            window.location.reload();
+        }
     }
 
     showMainApp() {
