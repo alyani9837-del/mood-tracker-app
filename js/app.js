@@ -119,7 +119,17 @@ class MoodApp {
         if (targetForm) targetForm.classList.remove('hidden');
     }
 
+    showError(id, msg) {
+        const el = document.getElementById(id);
+        if (el) el.innerText = msg;
+    }
+
+    clearErrors() {
+        document.querySelectorAll('.error-text').forEach(el => el.innerText = '');
+    }
+
     login() {
+        this.clearErrors();
         const emailEl = document.getElementById('login-email');
         const passEl = document.getElementById('login-password');
         let isValid = true;
@@ -128,31 +138,34 @@ class MoodApp {
             el.classList.remove('input-error');
             if (!el.value) {
                 el.classList.add('input-error');
+                this.showError(`${el.id}-error`, 'Bidang ini wajib diisi!');
                 isValid = false;
             }
-            el.oninput = () => el.classList.remove('input-error');
+            el.oninput = () => {
+                el.classList.remove('input-error');
+                this.showError(`${el.id}-error`, '');
+            };
         });
 
         if (!isValid) return;
 
-        // Cari user di "database"
         const user = this.users.find(u => u.email === emailEl.value);
 
         if (!user) {
             Toast.error('Login Failed', 'Email belum terdaftar!');
+            this.showError('login-email-error', 'Email belum terdaftar!');
             emailEl.classList.add('input-error');
             return;
         }
 
         if (user.password !== passEl.value) {
             Toast.error('Login Failed', 'Kata sandi salah!');
+            this.showError('login-password-error', 'Kata sandi salah!');
             passEl.classList.add('input-error');
             return;
         }
 
-        // Kalau email beda sama profil yang aktif sekarang, bersihkan data lama
         if (this.profile.email !== emailEl.value) {
-            // Kita cuma hapus data sesi, bukan database user
             const currentUsers = JSON.parse(localStorage.getItem('appUsers')) || [];
             localStorage.clear();
             localStorage.setItem('appUsers', JSON.stringify(currentUsers));
@@ -174,10 +187,11 @@ class MoodApp {
         }
 
         localStorage.setItem('isLoggedIn', 'true');
-        window.location.reload();
+        window.location.href = window.location.pathname;
     }
 
     register() {
+        this.clearErrors();
         const nameEl = document.getElementById('reg-name');
         const emailEl = document.getElementById('reg-email');
         const passEl = document.getElementById('reg-password');
@@ -187,26 +201,29 @@ class MoodApp {
             el.classList.remove('input-error');
             if (!el.value) {
                 el.classList.add('input-error');
+                this.showError(`${el.id}-error`, 'Bidang ini wajib diisi!');
                 isValid = false;
             }
             if (el === passEl && el.value && el.value.length < 8) {
                 el.classList.add('input-error');
+                this.showError(`reg-password-error`, 'Minimal 8 karakter!');
                 isValid = false;
-                Toast.warning('Validation Error', 'Kata sandi minimal 8 karakter!');
             }
-            el.oninput = () => el.classList.remove('input-error');
+            el.oninput = () => {
+                el.classList.remove('input-error');
+                this.showError(`${el.id}-error`, '');
+            };
         });
 
         if (!isValid) return;
 
-        // Cek apakah email sudah terdaftar
         if (this.users.some(u => u.email === emailEl.value)) {
             Toast.error('Register Failed', 'Email sudah digunakan!');
+            this.showError('reg-email-error', 'Email sudah digunakan!');
             emailEl.classList.add('input-error');
             return;
         }
 
-        // Simpan ke database user
         const newUser = {
             name: nameEl.value,
             email: emailEl.value,
@@ -215,7 +232,6 @@ class MoodApp {
         this.users.push(newUser);
         localStorage.setItem('appUsers', JSON.stringify(this.users));
 
-        // Set data profil aktif
         this.profile = {
             name: nameEl.value,
             email: emailEl.value,
@@ -231,7 +247,6 @@ class MoodApp {
         localStorage.setItem('userHopes', JSON.stringify(this.hopes));
         localStorage.setItem('userDiary', JSON.stringify(this.diary));
 
-        // FINAL STEP: Set login session
         localStorage.setItem('isLoggedIn', 'true');
 
         // Use location.href instead of reload() for cleaner redirect

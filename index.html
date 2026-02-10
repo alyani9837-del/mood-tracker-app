@@ -172,10 +172,12 @@
                         <div class="form-group">
                             <label>Email Address</label>
                             <input type="email" id="login-email" placeholder="e.g. email@example.com">
+                            <span id="login-email-error" class="error-text"></span>
                         </div>
                         <div class="form-group">
                             <label>Password</label>
                             <input type="password" id="login-password" placeholder="Enter your password">
+                            <span id="login-password-error" class="error-text"></span>
                             <a href="#" class="forgot-link" onclick="app.toggleAuth('forgot')">Forgot password?</a>
                         </div>
 
@@ -206,10 +208,12 @@
                         <div class="form-group">
                             <label>Email Address</label>
                             <input type="email" id="reg-email" placeholder="name@email.com">
+                            <span id="reg-email-error" class="error-text"></span>
                         </div>
                         <div class="form-group">
                             <label>Create Password</label>
                             <input type="password" id="reg-password" placeholder="Minimum 8 characters">
+                            <span id="reg-password-error" class="error-text"></span>
                         </div>
 
                         <button class="btn-primary auth-submit" onclick="app.register()">Register</button>
