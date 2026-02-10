@@ -1,0 +1,512 @@
+/* ============================================================
+   MOBILE-FIRST RESPONSIVE DESIGN - DEBUG & FIX STRATEGY
+   Senior CSS Engineer Approach for Native HTML/CSS Project
+   ============================================================ */
+
+/* ============================================
+   0. GLOBAL MOBILE RESET - CRITICAL FIX #5
+   ============================================ */
+* {
+    box-sizing: border-box;
+}
+
+html {
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+}
+
+body {
+    overflow-x: hidden !important;
+    width: 100%;
+    max-width: 100vw;
+    position: relative;
+}
+
+/* Prevent horizontal wiggle on all containers */
+.app-container,
+.main-content,
+.page,
+section {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+/* Hide burger menu and overlay on desktop */
+.burger-menu,
+.sidebar-overlay {
+    display: none;
+}
+
+/* ============================================
+   1. TABLET LAYOUT (1024px and below)
+   ============================================ */
+@media screen and (max-width: 1024px) {
+    .sidebar {
+        width: 80px;
+        padding: 2.5rem 0.5rem;
+    }
+
+    /* Hide sidebar text elements on tablet */
+    .sidebar .logo span,
+    .nav-links li span,
+    .user-info-sidebar,
+    .privacy-badge span,
+    .logout-item span {
+        display: none;
+    }
+
+    .main-content {
+        margin-left: 80px;
+        padding: 2rem;
+    }
+
+    /* Single column layouts for tablet */
+    .hopes-layout,
+    .diary-layout {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+/* ============================================
+   2. MOBILE LAYOUT (768px and below)
+   CRITICAL FIX ZONE - Hamburger Menu System
+   ============================================ */
+@media screen and (max-width: 768px) {
+
+    /* ----------------------------------------
+       HAMBURGER MENU SYSTEM
+       ---------------------------------------- */
+
+    /* Burger Menu Icon - Hidden on Desktop */
+    .burger-menu {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        width: 44px;
+        height: 44px;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        padding: 8px;
+        z-index: 10001;
+        position: relative;
+        margin-right: 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .burger-menu span {
+        width: 28px;
+        height: 3px;
+        background: var(--primary);
+        border-radius: 10px;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        transform-origin: center;
+    }
+
+    /* Burger Menu Active State (X Animation) */
+    .burger-menu.is-active span:nth-child(1) {
+        transform: translateY(9px) rotate(45deg);
+    }
+
+    .burger-menu.is-active span:nth-child(2) {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+
+    .burger-menu.is-active span:nth-child(3) {
+        transform: translateY(-9px) rotate(-45deg);
+    }
+
+    /* ----------------------------------------
+       OFF-CANVAS SIDEBAR
+       ---------------------------------------- */
+
+    .sidebar {
+        /* Position off-screen to the left */
+        position: fixed !important;
+        left: 0 !important;
+        top: 0 !important;
+        height: 100vh !important;
+        width: 280px !important;
+
+        /* Transform off-screen */
+        transform: translateX(-100%) !important;
+
+        /* Smooth slide animation */
+        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+
+        /* Visual */
+        background: rgba(255, 255, 255, 0.98) !important;
+        backdrop-filter: blur(20px) !important;
+        -webkit-backdrop-filter: blur(20px) !important;
+        box-shadow: 2px 0 20px rgba(0, 0, 0, 0.1) !important;
+
+        /* Above everything */
+        z-index: 10000 !important;
+
+        /* Enable scrolling */
+        overflow-y: auto !important;
+
+        /* Padding */
+        padding: 2rem 1.5rem !important;
+
+        /* Show on desktop (will be overridden by media query) */
+        display: flex !important;
+    }
+
+    /* Sidebar Active State - Slide In */
+    .sidebar.is-active {
+        transform: translateX(0) !important;
+    }
+
+    /* ----------------------------------------
+       SIDEBAR TEXT LABELS - Show on Mobile
+       Override tablet icon-only mode
+       ---------------------------------------- */
+
+    .sidebar .logo span,
+    .nav-links li span,
+    .user-info-sidebar,
+    .privacy-badge span,
+    .logout-item span {
+        display: inline !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+
+    /* Ensure nav links have proper spacing */
+    .nav-links li {
+        display: flex !important;
+        align-items: center !important;
+        gap: 1rem !important;
+    }
+
+    /* ----------------------------------------
+       SIDEBAR OVERLAY
+       ---------------------------------------- */
+
+    .sidebar-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(15, 23, 42, 0.6);
+        backdrop-filter: blur(2px);
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+        z-index: 9999;
+        cursor: pointer;
+    }
+
+    .sidebar-overlay.is-active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    /* ----------------------------------------
+       FIX #1: HEADER REFACTOR with Flexbox
+       ---------------------------------------- */
+
+    .main-content {
+        margin-left: 0 !important;
+        width: 100% !important;
+        padding: 1.5rem 1rem 2rem 1rem !important;
+        /* No bottom padding needed since no bottom nav */
+    }
+
+    /* Mobile Header: Flex Container with Space-Between */
+    header {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        gap: 1rem !important;
+        margin-bottom: 2rem !important;
+        width: 100%;
+        padding: 0.5rem 0;
+    }
+
+    /* Welcome Text - Left Aligned (after burger) */
+    .welcome-text {
+        flex: 1;
+        text-align: left !important;
+    }
+
+    .welcome-text h1 {
+        font-size: 1.75rem !important;
+        margin-bottom: 0.25rem;
+        line-height: 1.2;
+    }
+
+    .welcome-text p {
+        font-size: 0.9rem !important;
+        margin: 0;
+    }
+
+    /* Header Right Icons - Properly Aligned */
+    .header-right {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: flex-end !important;
+        gap: 0.75rem !important;
+        flex-shrink: 0;
+    }
+
+    .current-status {
+        padding: 0.5rem 1rem;
+        background: var(--primary-light);
+        color: var(--primary);
+        font-weight: 600;
+        font-size: 0.85rem;
+        border-radius: 20px;
+        white-space: nowrap;
+    }
+
+    .status-dot {
+        display: none;
+    }
+
+    /* Avatar - Touch Target Compliant */
+    .user-avatar-header {
+        min-width: 44px !important;
+        min-height: 44px !important;
+        width: 44px !important;
+        height: 44px !important;
+        flex-shrink: 0;
+    }
+
+    /* ----------------------------------------
+       FIX #2: CARD STACK LOGIC - 100% Width
+       ---------------------------------------- */
+
+    /* Reset ALL Grid Systems to Single Column */
+    .stats-grid,
+    .scanner-container,
+    .article-grid,
+    .charts-grid,
+    .hopes-layout,
+    .diary-layout {
+        display: grid !important;
+        grid-template-columns: 1fr !important;
+        gap: 1.5rem !important;
+        width: 100% !important;
+    }
+
+    /* Force All Cards to Full Width */
+    .card,
+    .glass,
+    .glass-premium,
+    .article-card,
+    .chart-container {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        margin-bottom: 1.5rem !important;
+        padding: 1.5rem !important;
+        box-sizing: border-box;
+    }
+
+    /* Premium Action Card - Mobile Stack */
+    .glass-premium {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        padding: 2rem !important;
+    }
+
+    .action-card .content {
+        max-width: 100% !important;
+        margin-bottom: 1.5rem;
+    }
+
+    .action-card .illustration {
+        align-self: center;
+    }
+
+    /* ----------------------------------------
+       HIDE OLD BOTTOM NAVIGATION COMPLETELY
+       ---------------------------------------- */
+
+    .mobile-nav {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+    }
+
+    /* ----------------------------------------
+       ADDITIONAL MOBILE OPTIMIZATIONS
+       ---------------------------------------- */
+
+    /* Landing Page Hero */
+    .hero-content h1 {
+        font-size: 2.25rem !important;
+        line-height: 1.2;
+    }
+
+    .hero-content p {
+        font-size: 1rem;
+    }
+
+    /* Breath Visual */
+    .breath-visual {
+        width: 260px;
+        height: 260px;
+    }
+
+    .breath-text {
+        font-size: 1.4rem;
+    }
+
+    /* System Flow - Vertical Stack */
+    .flow-container {
+        flex-direction: column !important;
+        gap: 2rem;
+        align-items: center;
+    }
+
+    .flow-step {
+        width: 100%;
+        max-width: 280px;
+    }
+
+    .flow-arrow {
+        transform: rotate(90deg);
+        opacity: 0.3;
+        margin: 0.5rem 0;
+    }
+
+    /* Formula Display - Vertical */
+    .formula-display {
+        flex-direction: column !important;
+        gap: 1.5rem;
+        align-items: center;
+    }
+
+    .operator {
+        transform: rotate(90deg);
+    }
+
+    /* Video Wrapper - Responsive */
+    .video-wrapper {
+        width: 100% !important;
+        aspect-ratio: 4/3;
+    }
+
+    /* Scanner Controls */
+    .scanner-controls {
+        width: 100% !important;
+    }
+
+    /* Emoji Grid - Mobile Friendly */
+    .emoji-grid {
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 0.75rem;
+    }
+
+    .emoji-btn {
+        padding: 0.75rem 0.5rem !important;
+        font-size: 1.5rem;
+        /* Touch target size maintained by parent grid */
+        min-height: 44px;
+    }
+
+    /* Profile Layout */
+    .profile-form-grid {
+        grid-template-columns: 1fr !important;
+        gap: 2rem !important;
+    }
+
+    /* Diary & Hopes Input Sections */
+    .diary-input-section,
+    .hopes-input-section {
+        position: static !important;
+    }
+
+    /* Big Score Typography */
+    .big-score {
+        font-size: 3rem !important;
+    }
+
+    /* Motivation Card */
+    .motivation-card {
+        padding: 2rem 1.5rem !important;
+    }
+
+    #daily-wisdom-text {
+        font-size: 1rem !important;
+    }
+}
+
+/* ============================================
+   3. SMALL MOBILE (480px and below)
+   ============================================ */
+@media screen and (max-width: 480px) {
+
+    /* Tighter Header */
+    .welcome-text h1 {
+        font-size: 1.5rem !important;
+    }
+
+    .welcome-text p {
+        font-size: 0.85rem !important;
+    }
+
+    .header-right {
+        gap: 0.5rem !important;
+    }
+
+    /* Auth Page */
+    .auth-title {
+        font-size: 1.75rem !important;
+    }
+
+    /* Emoji Grid - 2 Column on Very Small Screens */
+    .emoji-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+
+    /* Cards - Tighter Padding */
+    .card,
+    .glass {
+        padding: 1.25rem !important;
+    }
+
+    /* Bottom Nav - Smaller Icons */
+    .mobile-nav {
+        height: 65px !important;
+    }
+
+    .mobile-nav-item i {
+        width: 22px !important;
+        height: 22px !important;
+    }
+
+    .mobile-nav-item span {
+        font-size: 0.65rem;
+    }
+
+    /* Big Score - Smaller */
+    .big-score {
+        font-size: 2.5rem !important;
+    }
+}
+
+/* ============================================
+   4. LANDSCAPE MOBILE FIX (if needed)
+   ============================================ */
+@media screen and (max-height: 600px) and (orientation: landscape) {
+    .mobile-nav {
+        height: 60px !important;
+    }
+
+    header {
+        margin-bottom: 1rem !important;
+    }
+
+    .main-content {
+        padding-top: 1rem !important;
+    }
+}

@@ -1,0 +1,212 @@
+/* ============================================================
+   GLASSMORPHISM + PARTICLES BREATH UI
+   Option 2 - Premium frosted glass with floating particles
+   ============================================================ */
+
+/* Breath Container with Particles */
+.breath-container-glass {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 70vh;
+    gap: 3rem;
+    position: relative;
+    padding: 2rem;
+}
+
+/* Particles Background */
+.breath-particles {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.breath-particle {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: var(--primary);
+    border-radius: 50%;
+    opacity: 0.3;
+    animation: breathParticleFloat 6s infinite ease-in-out;
+}
+
+.breath-particle:nth-child(1) {
+    left: 20%;
+    top: 30%;
+    animation-delay: 0s;
+}
+
+.breath-particle:nth-child(2) {
+    left: 80%;
+    top: 40%;
+    animation-delay: 1s;
+}
+
+.breath-particle:nth-child(3) {
+    left: 30%;
+    top: 70%;
+    animation-delay: 2s;
+}
+
+.breath-particle:nth-child(4) {
+    left: 70%;
+    top: 20%;
+    animation-delay: 3s;
+}
+
+.breath-particle:nth-child(5) {
+    left: 50%;
+    top: 80%;
+    animation-delay: 4s;
+}
+
+.breath-particle:nth-child(6) {
+    left: 15%;
+    top: 50%;
+    animation-delay: 5s;
+}
+
+.breath-particle:nth-child(7) {
+    left: 85%;
+    top: 60%;
+    animation-delay: 1.5s;
+}
+
+.breath-particle:nth-child(8) {
+    left: 40%;
+    top: 15%;
+    animation-delay: 2.5s;
+}
+
+@keyframes breathParticleFloat {
+
+    0%,
+    100% {
+        transform: translateY(0) scale(1);
+        opacity: 0.3;
+    }
+
+    50% {
+        transform: translateY(-20px) scale(1.5);
+        opacity: 0.6;
+    }
+}
+
+/* Glass Circle - Main Visual */
+.breath-glass-circle {
+    width: 320px;
+    height: 320px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 2px solid rgba(59, 130, 246, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 10;
+    box-shadow:
+        0 8px 32px rgba(59, 130, 246, 0.1),
+        inset 0 0 20px rgba(255, 255, 255, 0.5);
+    transition: all 4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Glow effect behind glass circle */
+.breath-glass-circle::before {
+    content: '';
+    position: absolute;
+    inset: -20px;
+    border-radius: 50%;
+    background: linear-gradient(45deg, var(--primary), var(--accent));
+    opacity: 0.1;
+    filter: blur(20px);
+    z-index: -1;
+    transition: all 4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Breathing active state */
+.breath-glass-circle.breathing {
+    transform: scale(1.2);
+    background: rgba(255, 255, 255, 0.25);
+    box-shadow:
+        0 16px 48px rgba(59, 130, 246, 0.2),
+        inset 0 0 30px rgba(255, 255, 255, 0.6);
+}
+
+.breath-glass-circle.breathing::before {
+    opacity: 0.2;
+    filter: blur(30px);
+    inset: -30px;
+}
+
+/* Inner text */
+.breath-glass-text {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--primary);
+    z-index: 11;
+    letter-spacing: -0.01em;
+}
+
+/* Controls area */
+.breath-glass-controls {
+    text-align: center;
+    z-index: 10;
+}
+
+.breath-glass-controls p {
+    margin-top: 1.5rem;
+    color: var(--text-muted);
+    font-size: 1rem;
+    max-width: 300px;
+}
+
+/* Button specific to glassmorphism style */
+.btn-breath-glass {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    color: var(--primary);
+    padding: 1rem 2.5rem;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+}
+
+.btn-breath-glass:hover {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
+}
+
+.btn-breath-glass.active {
+    background: #ef4444;
+    color: white;
+    border-color: #ef4444;
+}
+
+.btn-breath-glass.active:hover {
+    background: #dc2626;
+    border-color: #dc2626;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .breath-glass-circle {
+        width: 260px;
+        height: 260px;
+    }
+
+    .breath-glass-text {
+        font-size: 1.5rem;
+    }
+}

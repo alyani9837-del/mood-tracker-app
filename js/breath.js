@@ -48,6 +48,7 @@ class BreathArt {
         if (!this.isActive) return;
 
         const inner = document.querySelector('.inner-circle');
+        const visual = document.querySelector('.breath-visual');
         const text = document.getElementById('breath-instruction');
         if (!inner || !text) return;
 
@@ -56,6 +57,7 @@ class BreathArt {
         inner.style.transform = 'scale(1)';
         inner.style.opacity = '0.9';
         inner.style.transition = 'all 4s cubic-bezier(0.4, 0, 0.2, 1)';
+        if (visual) visual.classList.add('breathing');
 
         this.timer = setTimeout(() => {
             if (!this.isActive) return;
@@ -73,6 +75,7 @@ class BreathArt {
                 inner.style.transform = 'scale(0.4)';
                 inner.style.opacity = '0.6';
                 inner.style.transition = 'all 4s cubic-bezier(0.4, 0, 0.2, 1)';
+                if (visual) visual.classList.remove('breathing');
 
                 this.timer = setTimeout(() => {
                     this.runCycle();
