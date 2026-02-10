@@ -166,7 +166,7 @@ class MoodApp {
             if (el === passEl && el.value && el.value.length < 8) {
                 el.classList.add('input-error');
                 isValid = false;
-                alert('Kata sandi minimal 8 karakter!');
+                Toast.warning('Validation Error', 'Kata sandi minimal 8 karakter!');
             }
             el.oninput = () => el.classList.remove('input-error');
         });
@@ -206,7 +206,7 @@ class MoodApp {
             emailEl.oninput = () => emailEl.classList.remove('input-error');
             return;
         }
-        alert('Instruksi pemulihan telah dikirim!');
+        Toast.success('Email Sent', 'Instruksi pemulihan telah dikirim!');
         this.toggleAuth('login');
     }
 
@@ -216,7 +216,7 @@ class MoodApp {
         const lang = document.getElementById('profile-lang').value;
 
         if (!name || !email) {
-            alert('Nama dan Email harus diisi!');
+            Toast.warning('Required Fields', 'Nama dan Email harus diisi!');
             return;
         }
 
@@ -226,7 +226,7 @@ class MoodApp {
 
         localStorage.setItem('userProfile', JSON.stringify(this.profile));
         this.updateProfileUI();
-        alert('Profil berhasil diperbarui!');
+        Toast.success('Profile Updated', 'Profil berhasil diperbarui!');
         this.navigateTo('dashboard');
     }
 
@@ -701,13 +701,60 @@ class MoodApp {
     }
 }
 
+// Premium Toast Notification System
+const Toast = {
+    init() {
+        this.container = document.createElement('div');
+        this.container.className = 'toast-container';
+        document.body.appendChild(this.container);
+    },
+
+    show(options) {
+        if (!this.container) this.init();
+
+        const { title, message, type = 'info', duration = 4000 } = options;
+
+        const toast = document.createElement('div');
+        toast.className = `toast toast-${type}`;
+
+        const icons = {
+            success: 'check-circle',
+            error: 'alert-circle',
+            warning: 'alert-triangle',
+            info: 'info'
+        };
+
+        toast.innerHTML = `
+            <div class="toast-icon">
+                <i data-lucide="${icons[type]}"></i>
+            </div>
+            <div class="toast-content">
+                <span class="toast-title">${title}</span>
+                <span class="toast-message">${message}</span>
+            </div>
+        `;
+
+        this.container.appendChild(toast);
+        lucide.createIcons();
+
+        // Auto remove
+        setTimeout(() => {
+            toast.classList.add('toast-fade-out');
+            setTimeout(() => toast.remove(), 300);
+        }, duration);
+    },
+
+    success(title, message) { this.show({ title, message, type: 'success' }); },
+    error(title, message) { this.show({ title, message, type: 'error' }); },
+    warning(title, message) { this.show({ title, message, type: 'warning' }); },
+    info(title, message) { this.show({ title, message, type: 'info' }); }
+};
+
+// Global feedback alias for backward compatibility
 function feedbackWithImpact(msg) {
-    const toast = document.createElement('div');
-    toast.style = "position:fixed; bottom:20px; right:20px; background:#3b82f6; color:white; padding:1rem 2rem; border-radius:12px; z-index:1000; animation: fadeInUp 0.5s ease;";
-    toast.innerText = msg;
-    document.body.appendChild(toast);
-    setTimeout(() => toast.remove(), 4000);
+    Toast.info('Notification', msg);
 }
 
 const app = new MoodApp();
 window.app = app;
+window.Toast = Toast;
