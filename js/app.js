@@ -20,6 +20,15 @@ class MoodApp {
     }
 
     init() {
+        // Force security check
+        if (!this.isLoggedIn) {
+            localStorage.removeItem('isLoggedIn');
+            this.navigateTo('landing');
+        } else {
+            this.updateProfileUI();
+            this.updateDashboard();
+        }
+
         // Nav listeners
         document.querySelectorAll('.nav-links li').forEach(li => {
             li.addEventListener('click', (e) => {
@@ -222,8 +231,11 @@ class MoodApp {
         localStorage.setItem('userHopes', JSON.stringify(this.hopes));
         localStorage.setItem('userDiary', JSON.stringify(this.diary));
 
+        // FINAL STEP: Set login session
         localStorage.setItem('isLoggedIn', 'true');
-        window.location.reload();
+
+        // Use location.href instead of reload() for cleaner redirect
+        window.location.href = window.location.pathname;
     }
 
     handleForgot() {
