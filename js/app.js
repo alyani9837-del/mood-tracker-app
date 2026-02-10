@@ -145,8 +145,12 @@ class MoodApp {
 
         this.isLoggedIn = true;
         localStorage.setItem('isLoggedIn', 'true');
-        this.updateProfileUI();
-        this.showMainApp();
+
+        // Simpan profile baru ke storage
+        localStorage.setItem('userProfile', JSON.stringify(this.profile));
+
+        // Redirect dan Reload untuk memastikan state bersih
+        window.location.reload();
     }
 
     register() {
@@ -189,8 +193,12 @@ class MoodApp {
 
         this.isLoggedIn = true;
         localStorage.setItem('isLoggedIn', 'true');
-        this.updateProfileUI();
-        this.showMainApp();
+
+        // Simpan data baru
+        localStorage.setItem('userProfile', JSON.stringify(this.profile));
+
+        // Reload total
+        window.location.reload();
     }
 
     handleForgot() {
@@ -430,21 +438,20 @@ class MoodApp {
 
     logout() {
         if (confirm('Apakah Anda yakin ingin keluar?')) {
+            // Bersihkan SEMUA data dari localStorage supaya gak nyangkut ke akun lain
+            localStorage.clear();
+
+            // Set status logout
             this.isLoggedIn = false;
-            // Bersihkan status login
-            localStorage.removeItem('isLoggedIn');
 
-            // Opsional: Jika ingin benar-benar bersih tiap ganti akun, 
-            // kita bisa hapus data profile & entries juga.
-            // localStorage.removeItem('userProfile');
-            // localStorage.removeItem('moodEntries');
-
-            // Cara paling aman: Redirect ke landing dan reload
-            document.getElementById('app-wrapper').classList.add('hidden');
+            // Redirect ke landing
+            if (document.getElementById('app-wrapper')) {
+                document.getElementById('app-wrapper').classList.add('hidden');
+            }
             this.navigateTo('landing');
 
-            // Reload page supaya state constructor ke-reset
-            window.location.reload();
+            // Reload total supaya state constructor balik ke default (kosong)
+            window.location.href = window.location.pathname;
         }
     }
 
