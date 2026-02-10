@@ -559,21 +559,28 @@ class MoodApp {
     }
 
     updateDashboard() {
+        const scoreEl = document.getElementById('today-main-score');
+        const pillEl = document.getElementById('current-score-pill');
+        const statusEl = document.getElementById('today-status');
+        const trendEl = document.getElementById('trend-summary');
+
         if (this.entries.length > 0) {
             const last = this.entries[this.entries.length - 1];
-            const scoreEl = document.getElementById('today-main-score');
-            const pillEl = document.getElementById('current-score-pill');
             if (scoreEl) scoreEl.innerText = last.score.toFixed(0);
             if (pillEl) pillEl.innerText = `Mood: ${last.score.toFixed(0)}`;
 
             const statusText = last.score > 70 ? "Critical Stress" : (last.score > 40 ? "Stable" : "Positive Flow");
-            const statusEl = document.getElementById('today-status');
             if (statusEl) statusEl.innerText = statusText;
-        }
 
-        const avg = this.calculateMovingAverage(7);
-        const trendEl = document.getElementById('trend-summary');
-        if (trendEl) trendEl.innerText = this.entries.length > 0 ? (avg > 55 ? "Elevated Stress Trend" : "Optimal range") : "No data recorded";
+            const avg = this.calculateMovingAverage(7);
+            if (trendEl) trendEl.innerText = avg > 55 ? "Elevated Stress Trend" : "Optimal range";
+        } else {
+            // Reset ke tampilan default kalau data kosong
+            if (scoreEl) scoreEl.innerText = "0";
+            if (pillEl) pillEl.innerText = "Mood: -";
+            if (statusEl) statusEl.innerText = "No Data Yet";
+            if (trendEl) trendEl.innerText = "No data recorded";
+        }
     }
 
     calculateMovingAverage(days) {
