@@ -383,11 +383,20 @@ class MoodApp {
         this.renderDiary();
     }
 
-    deleteDiary(id) {
-        if (confirm('Hapus catatan diary ini?')) {
+    async deleteDiary(id) {
+        const confirmed = await Modal.confirm({
+            title: 'Delete Entry',
+            message: 'Are you sure you want to permanently delete this journal entry?',
+            confirmText: 'Delete',
+            type: 'danger',
+            icon: 'trash-2'
+        });
+
+        if (confirmed) {
             this.diary = this.diary.filter(entry => entry.id !== id);
             localStorage.setItem('userDiary', JSON.stringify(this.diary));
             this.renderDiary();
+            Toast.success('Deleted', 'Entry removed successfully');
         }
     }
 
@@ -434,8 +443,16 @@ class MoodApp {
         lucide.createIcons();
     }
 
-    logout() {
-        if (confirm('Apakah Anda yakin ingin keluar?')) {
+    async logout() {
+        const confirmed = await Modal.confirm({
+            title: 'Confirm Logout',
+            message: 'Are you sure you want to exit your session? All local data will be cleared for security.',
+            confirmText: 'Logout',
+            type: 'danger',
+            icon: 'log-out'
+        });
+
+        if (confirmed) {
             // Bersihkan SEMUA data dari localStorage supaya gak nyangkut ke akun lain
             localStorage.clear();
 
@@ -755,6 +772,77 @@ function feedbackWithImpact(msg) {
     Toast.info('Notification', msg);
 }
 
+// Premium Modal System
+const Modal = {
+    init() {
+        if (this.overlay) return;
+        this.overlay = document.createElement('div');
+        this.overlay.className = 'modal-overlay';
+        this.overlay.innerHTML = `
+            <div class="modal-card">
+                <div class="modal-icon"><i data-lucide="help-circle"></i></div>
+                <span class="modal-title" id="modal-title">Confirm Action</span>
+                <p class="modal-message" id="modal-message">Are you sure you want to proceed?</p>
+                <div class="modal-footer">
+                    <button class="btn-modal-cancel" id="modal-cancel">Cancel</button>
+                    <button class="btn-modal-confirm" id="modal-confirm">Confirm</button>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(this.overlay);
+
+        this.cancelBtn = document.getElementById('modal-cancel');
+        this.confirmBtn = document.getElementById('modal-confirm');
+    },
+
+    confirm(options = {}) {
+        this.init();
+        const {
+            title = 'Confirm',
+            message = 'Proceed?',
+            confirmText = 'Confirm',
+            cancelText = 'Cancel',
+            type = 'primary',
+            icon = 'help-circle'
+        } = options;
+
+        document.getElementById('modal-title').innerText = title;
+        document.getElementById('modal-message').innerText = message;
+        this.cancelBtn.innerText = cancelText;
+        this.confirmBtn.innerText = confirmText;
+
+        // Reset type
+        this.confirmBtn.className = `btn-modal-confirm ${type === 'danger' ? 'danger' : ''}`;
+
+        // Update Icon
+        const iconContainer = this.overlay.querySelector('.modal-icon');
+        iconContainer.innerHTML = `<i data-lucide="${icon}"></i>`;
+        lucide.createIcons();
+
+        this.overlay.classList.add('active');
+
+        return new Promise((resolve) => {
+            const handleConfirm = () => {
+                this.close();
+                resolve(true);
+            };
+            const handleCancel = () => {
+                this.close();
+                resolve(false);
+            };
+
+            this.confirmBtn.onclick = handleConfirm;
+            this.cancelBtn.onclick = handleCancel;
+            this.overlay.onclick = (e) => { if (e.target === this.overlay) handleCancel(); };
+        });
+    },
+
+    close() {
+        if (this.overlay) this.overlay.classList.remove('active');
+    }
+};
+
 const app = new MoodApp();
 window.app = app;
 window.Toast = Toast;
+window.Modal = Modal;
